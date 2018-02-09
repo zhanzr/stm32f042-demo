@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
-  * File Name          : main.c
-  * Description        : Main program body
+  * @file           : main.c
+  * @brief          : Main program body
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -35,7 +35,6 @@
   *
   ******************************************************************************
   */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f0xx_hal.h"
@@ -46,6 +45,8 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+#include <stdint.h>
+
 static const union { unsigned char bytes[4]; uint32_t value; } o32_host_order =
     { { 0, 1, 2, 3 } };
 
@@ -70,7 +71,7 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN 0 */
 #define	ADC_CHAN_NO	6
-__IO uint16_t g_ADCBuf[ADC_CHAN_NO*2];
+__IO uint16_t g_ADCBuf[ADC_CHAN_NO];
 #if defined(__ARMCC_VERSION)
 int stdout_putchar (int ch)
 {
@@ -90,9 +91,13 @@ int _write (int fd, const void *buf, size_t count)
 #endif
 /* USER CODE END 0 */
 
+/**
+  * @brief  The application entry point.
+  *
+  * @retval None
+  */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -119,9 +124,8 @@ int main(void)
   MX_ADC_Init();
   MX_CRC_Init();
   MX_USART2_UART_Init();
-
   /* USER CODE BEGIN 2 */
-	printf("F042 Whetstone @ %u Hz, %u %u %u\n", 
+	printf("AC6 F042 Whetstone @ %u Hz, %u %u %u\n",
 		SystemCoreClock,
 		*(uint16_t*)(0x1FFFF7B8),
 		*(uint16_t*)(0x1FFFF7C2),
@@ -131,7 +135,7 @@ int main(void)
 		printf("%08X\n", O32_HOST_ORDER);
 		printf("%08X, %08X\n", SCB->CPUID, (1UL << SCB_AIRCR_ENDIANESS_Pos));
 		
-	HAL_ADC_Start_DMA(&hadc, (uint32_t*)g_ADCBuf, ADC_CHAN_NO*2);
+	HAL_ADC_Start_DMA(&hadc, (uint32_t*)g_ADCBuf, ADC_CHAN_NO);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -139,11 +143,9 @@ int main(void)
   while (1)
   {
 		printf("%u %u %u %u "
-		"%u %u %u %u "
-		"%u %u %u %u\n",
+		"%u %u\n",
 		g_ADCBuf[0], g_ADCBuf[1], g_ADCBuf[2], g_ADCBuf[3],
-		g_ADCBuf[4], g_ADCBuf[5], g_ADCBuf[6], g_ADCBuf[7],
-		g_ADCBuf[8], g_ADCBuf[9], g_ADCBuf[10], g_ADCBuf[11]
+		g_ADCBuf[4], g_ADCBuf[5]
 		);
 		
 		HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
@@ -167,8 +169,10 @@ int main(void)
 
 }
 
-/** System Clock Configuration
-*/
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
 
@@ -222,45 +226,43 @@ void SystemClock_Config(void)
 
 /**
   * @brief  This function is executed in case of error occurrence.
-  * @param  None
+  * @param  file: The file name as string.
+  * @param  line: The line in file as a number.
   * @retval None
   */
-void _Error_Handler(char * file, int line)
+void _Error_Handler(char *file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   while(1) 
   {
   }
-  /* USER CODE END Error_Handler_Debug */ 
+  /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
-
+#ifdef  USE_FULL_ASSERT
 /**
-   * @brief Reports the name of the source file and the source line number
-   * where the assert_param error has occurred.
-   * @param file: pointer to the source file name
-   * @param line: assert_param error line source number
-   * @retval None
-   */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t* file, uint32_t line)
-{
+{ 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
-
 }
-
-#endif
-
-/**
-  * @}
-  */ 
+#endif /* USE_FULL_ASSERT */
 
 /**
   * @}
-*/ 
+  */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
