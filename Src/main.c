@@ -45,7 +45,14 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-#include <stdint.h>
+#include <cstdint>
+#include <cstring>
+#include <cstdlib>
+#include <cstdio>
+
+#include <stdlib.h>  
+
+#include "test.h"
 
 static const union { unsigned char bytes[4]; uint32_t value; } o32_host_order =
     { { 0, 1, 2, 3 } };
@@ -71,24 +78,15 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN 0 */
 #define	ADC_CHAN_NO	6
+#define	VREF_MV	3310
+
 __IO uint16_t g_ADCBuf[ADC_CHAN_NO];
-#if defined(__ARMCC_VERSION)
-int stdout_putchar (int ch)
-{
-	uint8_t c = ch;
-	HAL_UART_Transmit(&huart2, &c, 1, 1);
-	return ch;
-}
-#else
-int _write (int fd, const void *buf, size_t count)
-{
-	for(uint32_t i=0; i<count; ++i)
-	{
-		HAL_UART_Transmit(&huart2, buf+i, 1, 1);
-	}
-	return count;
-}
-#endif
+
+#define	TS_CAL1	(*(uint16_t*)0x1ffff7b8)
+#define	TS_CAL2	(*(uint16_t*)0x1ffff7c2)
+
+float g_DieTemp;
+
 /* USER CODE END 0 */
 
 /**
@@ -136,16 +134,27 @@ int main(void)
 		printf("%08X, %08X\n", SCB->CPUID, (1UL << SCB_AIRCR_ENDIANESS_Pos));
 		
 	HAL_ADC_Start_DMA(&hadc, (uint32_t*)g_ADCBuf, ADC_CHAN_NO);
+	
+	//Test the new/delete and malloc/free
+	testClass* ptc = new testClass;
+	printf("%u %u -> %u\n", 10, 21, ptc->uMul(10, 21));
+	delete(ptc);
+	
+	testClass* ptc_c = (testClass*)malloc(sizeof(testClass));
+	printf("%u %u -> %u\n", 110, 7, ptc_c->uMul(110, 7));
+	free(ptc);
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		printf("%u %u %u %u "
-		"%u %u\n",
-		g_ADCBuf[0], g_ADCBuf[1], g_ADCBuf[2], g_ADCBuf[3],
-		g_ADCBuf[4], g_ADCBuf[5]
+		printf("%u %u %u %.1f 'C"
+		"\t%u mV %u\n",
+		g_ADCBuf[0], g_ADCBuf[1], g_ADCBuf[2], 30.0 + (g_ADCBuf[3]-TS_CAL1)*(80.0)/(TS_CAL2-TS_CAL1),
+		VREF_MV*g_ADCBuf[4]/4095, 
+		g_ADCBuf[5]
 		);
 		
 		HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
