@@ -48,11 +48,41 @@
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
+#define ADC_CHAN_NO 3
+#define VREF_MV 3300
 
-#define MCO_Pin GPIO_PIN_0
-#define MCO_GPIO_Port GPIOF
+#define RS_Pin GPIO_PIN_0
+#define RS_GPIO_Port GPIOF
+#define RW_Pin GPIO_PIN_1
+#define RW_GPIO_Port GPIOF
+#define E_Pin GPIO_PIN_1
+#define E_GPIO_Port GPIOA
 #define VCP_TX_Pin GPIO_PIN_2
 #define VCP_TX_GPIO_Port GPIOA
+#define DB0_Pin GPIO_PIN_3
+#define DB0_GPIO_Port GPIOA
+#define DB1_Pin GPIO_PIN_4
+#define DB1_GPIO_Port GPIOA
+#define DB2_Pin GPIO_PIN_5
+#define DB2_GPIO_Port GPIOA
+#define DB3_Pin GPIO_PIN_6
+#define DB3_GPIO_Port GPIOA
+#define DB4_Pin GPIO_PIN_7
+#define DB4_GPIO_Port GPIOA
+#define DB5_Pin GPIO_PIN_0
+#define DB5_GPIO_Port GPIOB
+#define DB6_Pin GPIO_PIN_1
+#define DB6_GPIO_Port GPIOB
+#define DB7_Pin GPIO_PIN_8
+#define DB7_GPIO_Port GPIOA
+#define CS1_Pin GPIO_PIN_9
+#define CS1_GPIO_Port GPIOA
+#define RST_Pin GPIO_PIN_10
+#define RST_GPIO_Port GPIOA
+#define CS2_Pin GPIO_PIN_11
+#define CS2_GPIO_Port GPIOA
+#define CS3_Pin GPIO_PIN_12
+#define CS3_GPIO_Port GPIOA
 #define SWDIO_Pin GPIO_PIN_13
 #define SWDIO_GPIO_Port GPIOA
 #define SWCLK_Pin GPIO_PIN_14
@@ -61,8 +91,6 @@
 #define VCP_RX_GPIO_Port GPIOA
 #define LD3_Pin GPIO_PIN_3
 #define LD3_GPIO_Port GPIOB
-#define PB4_Test_Pin GPIO_PIN_4
-#define PB4_Test_GPIO_Port GPIOB
 
 /* ########################## Assert Selection ############################## */
 /**

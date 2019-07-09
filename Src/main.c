@@ -39,26 +39,13 @@
 #include "main.h"
 #include "stm32f0xx_hal.h"
 #include "adc.h"
-#include "crc.h"
 #include "dma.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-#include <cstdint>
-#include <cstring>
-#include <cstdlib>
-#include <cstdio>
 
-#include <stdlib.h>  
-
-#include "test.h"
-
-static const union { unsigned char bytes[4]; uint32_t value; } o32_host_order =
-    { { 0, 1, 2, 3 } };
-
-#define O32_HOST_ORDER (o32_host_order.value)
-		
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -77,15 +64,6 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-#define	ADC_CHAN_NO	6
-#define	VREF_MV	3310
-
-__IO uint16_t g_ADCBuf[ADC_CHAN_NO];
-
-#define	TS_CAL1	(*(uint16_t*)0x1ffff7b8)
-#define	TS_CAL2	(*(uint16_t*)0x1ffff7c2)
-
-float g_DieTemp;
 
 /* USER CODE END 0 */
 
@@ -120,54 +98,18 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_ADC_Init();
-  MX_CRC_Init();
   MX_USART2_UART_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-	printf("AC6 F042 Whetstone @ %u Hz, %u %u %u\n",
-		SystemCoreClock,
-		*(uint16_t*)(0x1FFFF7B8),
-		*(uint16_t*)(0x1FFFF7C2),
-		*(uint16_t*)(0x1FFFF7BA)
-		);
-		
-		printf("%08X\n", O32_HOST_ORDER);
-		printf("%08X, %08X\n", SCB->CPUID, (1UL << SCB_AIRCR_ENDIANESS_Pos));
-		
-	HAL_ADC_Start_DMA(&hadc, (uint32_t*)g_ADCBuf, ADC_CHAN_NO);
-	
-	//Test the new/delete and malloc/free
-	testClass* ptc = new testClass;
-	printf("%u %u -> %u\n", 10, 21, ptc->uMul(10, 21));
-	delete(ptc);
-	
-	testClass* ptc_c = (testClass*)malloc(sizeof(testClass));
-	printf("%u %u -> %u\n", 110, 7, ptc_c->uMul(110, 7));
-	free(ptc);
-	
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		printf("%u %u %u %.1f 'C"
-		"\t%u mV %u\n",
-		g_ADCBuf[0], g_ADCBuf[1], g_ADCBuf[2], 30.0 + (g_ADCBuf[3]-TS_CAL1)*(80.0)/(TS_CAL2-TS_CAL1),
-		VREF_MV*g_ADCBuf[4]/4095, 
-		g_ADCBuf[5]
-		);
-		
 		HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
-		
-		HAL_Delay(8000);
-		
-//		HAL_GPIO_TogglePin(PB4_Test_GPIO_Port, PB4_Test_Pin);	
-		
-//	PB4_Test_GPIO_Port->ODR ^= PB4_Test_Pin;
-		
-//	PB4_Test_GPIO_Port->ODR = ((uint16_t)0x0010U);
-//		__NOP();
-//	PB4_Test_GPIO_Port->ODR = ((uint16_t)0x0000U);
+		HAL_Delay(500);
 		
   /* USER CODE END WHILE */
 
@@ -243,7 +185,7 @@ void _Error_Handler(char *file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  while(1) 
+  while(1)
   {
   }
   /* USER CODE END Error_Handler_Debug */
@@ -261,7 +203,7 @@ void assert_failed(uint8_t* file, uint32_t line)
 { 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
-    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+     tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

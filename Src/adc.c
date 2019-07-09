@@ -40,7 +40,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "adc.h"
 
-#include "gpio.h"
 #include "dma.h"
 
 /* USER CODE BEGIN 0 */
@@ -78,33 +77,9 @@ void MX_ADC_Init(void)
 
     /**Configure for the selected ADC regular channel to be converted. 
     */
-  sConfig.Channel = ADC_CHANNEL_0;
+  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
   sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
   sConfig.SamplingTime = ADC_SAMPLETIME_239CYCLES_5;
-  if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**Configure for the selected ADC regular channel to be converted. 
-    */
-  sConfig.Channel = ADC_CHANNEL_1;
-  if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**Configure for the selected ADC regular channel to be converted. 
-    */
-  sConfig.Channel = ADC_CHANNEL_3;
-  if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**Configure for the selected ADC regular channel to be converted. 
-    */
-  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
   if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -131,7 +106,6 @@ void MX_ADC_Init(void)
 void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 {
 
-  GPIO_InitTypeDef GPIO_InitStruct;
   if(adcHandle->Instance==ADC1)
   {
   /* USER CODE BEGIN ADC1_MspInit 0 */
@@ -140,16 +114,6 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     /* ADC1 clock enable */
     __HAL_RCC_ADC1_CLK_ENABLE();
   
-    /**ADC GPIO Configuration    
-    PA0     ------> ADC_IN0
-    PA1     ------> ADC_IN1
-    PA3     ------> ADC_IN3 
-    */
-    GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_3;
-    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
     /* ADC1 DMA Init */
     /* ADC Init */
     hdma_adc.Instance = DMA1_Channel1;
@@ -183,13 +147,6 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
   /* USER CODE END ADC1_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_ADC1_CLK_DISABLE();
-  
-    /**ADC GPIO Configuration    
-    PA0     ------> ADC_IN0
-    PA1     ------> ADC_IN1
-    PA3     ------> ADC_IN3 
-    */
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_3);
 
     /* ADC1 DMA DeInit */
     HAL_DMA_DeInit(adcHandle->DMA_Handle);

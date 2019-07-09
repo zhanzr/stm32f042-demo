@@ -11,7 +11,6 @@
 #include "main.h"
 #include "stm32f0xx_hal.h"
 #include "adc.h"
-#include "crc.h"
 #include "dma.h"
 #include "usart.h"
 #include "gpio.h"
