@@ -17,7 +17,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
@@ -28,12 +27,19 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "lcd2004.h"
 #include <stdint.h>
+#include <stdio.h>
 
-static const union { unsigned char bytes[4]; uint32_t value; } o32_host_order =
-    { { 0, 1, 2, 3 } };
+extern UART_HandleTypeDef huart2;
 
-#define O32_HOST_ORDER (o32_host_order.value)
+#ifdef __GNUC__
+/* With GCC, small printf (option LD Linker->Libraries->Small printf
+   set to 'Yes') calls __io_putchar() */
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif /* __GNUC__ */
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -68,6 +74,23 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 __IO uint16_t g_ADCBuf[ADC_CHAN_NO];
+
+/**
+  * @brief  Retargets the C library printf function to the USART.
+  * @param  None
+  * @retval None
+  */
+PUTCHAR_PROTOTYPE
+{
+  /* Place your implementation of fputc here */
+  /* e.g. write a character to the USART3 and Loop until the end of transmission */
+  HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
+
+  return ch;
+}
+
+uint8_t line[4][21] = {"HD44780", "LCM-S02004DSR", "4 bit mode", "driver demo"};
+
 /* USER CODE END 0 */
 
 /**
@@ -76,10 +99,10 @@ __IO uint16_t g_ADCBuf[ADC_CHAN_NO];
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
-  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -105,34 +128,42 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
-	printf("Keil F042 Whetstone @ %u Hz, %u %u %u\n",
+	printf("NUCLEO-F042K6 @ %u Hz, %u %u %u\n",
 		SystemCoreClock,
 		*(uint16_t*)(0x1FFFF7B8),
 		*(uint16_t*)(0x1FFFF7C2),
 		*(uint16_t*)(0x1FFFF7BA)
 		);
-		
-		printf("%08X\n", O32_HOST_ORDER);
-		printf("%08X, %08X\n", SCB->CPUID, SCB_AIRCR_ENDIANESS_Msk);
-		
-
 	HAL_ADC_Start_DMA(&hadc, (uint32_t*)g_ADCBuf, ADC_CHAN_NO);
 
 	printf("SysClk:%u, CPUID:%08X\n", SystemCoreClock, SCB->CPUID);
+
+
+	  LCD_Initialize();
+
+	  LCD_displayL(0, 0, line[0]);
+	  LCD_displayL(1, 0, line[1]);
+	  LCD_displayL(2, 0, line[2]);
+	  LCD_displayL(3, 0, line[3]);
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+  uint32_t test_pwm_duty = 0;
+  while (1) {
+		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, test_pwm_duty);
+		  test_pwm_duty += 10;
+
 		HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
-		HAL_Delay(1500);
+		HAL_Delay(500);
 		
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		printf("%u %u %u\n",
-		g_ADCBuf[0], g_ADCBuf[1], g_ADCBuf[2]);		
+		printf("%u %u %u %u\n",
+		g_ADCBuf[0], g_ADCBuf[1], g_ADCBuf[2], test_pwm_duty);
   }
   /* USER CODE END 3 */
 }
@@ -146,7 +177,8 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSI14;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -161,7 +193,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1;
@@ -192,8 +225,7 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -201,13 +233,11 @@ void Error_Handler(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(char *file, uint32_t line)
-{ 
+void assert_failed(uint8_t *file, uint32_t line)
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

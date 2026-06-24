@@ -17,3 +17,6 @@ Objects/*
 
 *.ini
 */DebugConfig/*
+
+STM32CubeIDE/Debug/
+STM32CubeIDE/Release/

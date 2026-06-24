@@ -60,38 +60,38 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define ADC_CHAN_NO 3
 #define VREF_MV 3300
-#define RS_Pin GPIO_PIN_0
-#define RS_GPIO_Port GPIOF
-#define RW_Pin GPIO_PIN_1
-#define RW_GPIO_Port GPIOF
-#define E_Pin GPIO_PIN_1
-#define E_GPIO_Port GPIOA
+#define PF0_Pin GPIO_PIN_0
+#define PF0_GPIO_Port GPIOF
+#define PF1_Pin GPIO_PIN_1
+#define PF1_GPIO_Port GPIOF
+#define PA1_Pin GPIO_PIN_1
+#define PA1_GPIO_Port GPIOA
 #define VCP_TX_Pin GPIO_PIN_2
 #define VCP_TX_GPIO_Port GPIOA
-#define DB0_Pin GPIO_PIN_3
-#define DB0_GPIO_Port GPIOA
-#define DB1_Pin GPIO_PIN_4
-#define DB1_GPIO_Port GPIOA
-#define DB2_Pin GPIO_PIN_5
-#define DB2_GPIO_Port GPIOA
-#define DB3_Pin GPIO_PIN_6
-#define DB3_GPIO_Port GPIOA
-#define DB4_Pin GPIO_PIN_7
+#define PA3_Pin GPIO_PIN_3
+#define PA3_GPIO_Port GPIOA
+#define DB4_Pin GPIO_PIN_4
 #define DB4_GPIO_Port GPIOA
-#define DB5_Pin GPIO_PIN_0
-#define DB5_GPIO_Port GPIOB
-#define DB6_Pin GPIO_PIN_1
-#define DB6_GPIO_Port GPIOB
-#define DB7_Pin GPIO_PIN_8
+#define DB5_Pin GPIO_PIN_5
+#define DB5_GPIO_Port GPIOA
+#define DB6_Pin GPIO_PIN_6
+#define DB6_GPIO_Port GPIOA
+#define DB7_Pin GPIO_PIN_7
 #define DB7_GPIO_Port GPIOA
-#define CS1_Pin GPIO_PIN_9
-#define CS1_GPIO_Port GPIOA
-#define RST_Pin GPIO_PIN_10
-#define RST_GPIO_Port GPIOA
-#define CS2_Pin GPIO_PIN_11
-#define CS2_GPIO_Port GPIOA
-#define CS3_Pin GPIO_PIN_12
-#define CS3_GPIO_Port GPIOA
+#define RS_Pin GPIO_PIN_0
+#define RS_GPIO_Port GPIOB
+#define E_Pin GPIO_PIN_1
+#define E_GPIO_Port GPIOB
+#define PA8_Pin GPIO_PIN_8
+#define PA8_GPIO_Port GPIOA
+#define PA9_Pin GPIO_PIN_9
+#define PA9_GPIO_Port GPIOA
+#define PA10_Pin GPIO_PIN_10
+#define PA10_GPIO_Port GPIOA
+#define PA11_Pin GPIO_PIN_11
+#define PA11_GPIO_Port GPIOA
+#define PA12_Pin GPIO_PIN_12
+#define PA12_GPIO_Port GPIOA
 #define SWDIO_Pin GPIO_PIN_13
 #define SWDIO_GPIO_Port GPIOA
 #define SWCLK_Pin GPIO_PIN_14
@@ -100,6 +100,7 @@ void Error_Handler(void);
 #define VCP_RX_GPIO_Port GPIOA
 #define LD3_Pin GPIO_PIN_3
 #define LD3_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
@@ -109,5 +110,3 @@ void Error_Handler(void);
 #endif
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

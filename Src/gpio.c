@@ -1,24 +1,26 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * File Name          : gpio.c
-  * Description        : This file provides code for the configuration
-  *                      of all used GPIO pins.
+  * @file    gpio.c
+  * @brief   This file provides code for the configuration
+  *          of all used GPIO pins.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2026 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
 #include "gpio.h"
+
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -30,9 +32,9 @@
 
 /* USER CODE END 1 */
 
-/** Configure pins as 
-        * Analog 
-        * Input 
+/** Configure pins as
+        * Analog
+        * Input
         * Output
         * EVENT_OUT
         * EXTI
@@ -48,41 +50,41 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOF, RS_Pin|RW_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOF, PF0_Pin|PF1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, E_Pin|DB0_Pin|DB1_Pin|DB2_Pin 
-                          |DB3_Pin|DB4_Pin|DB7_Pin|CS1_Pin 
-                          |RST_Pin|CS2_Pin|CS3_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, PA1_Pin|PA3_Pin|DB4_Pin|DB5_Pin
+                          |DB6_Pin|DB7_Pin|PA8_Pin|PA9_Pin
+                          |PA10_Pin|PA11_Pin|PA12_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, DB5_Pin|DB6_Pin|LD3_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, RS_Pin|E_Pin|LD3_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : PFPin PFPin */
-  GPIO_InitStruct.Pin = RS_Pin|RW_Pin;
+  /*Configure GPIO pins : PF0_Pin PF1_Pin */
+  GPIO_InitStruct.Pin = PF0_Pin|PF1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PAPin PAPin PAPin PAPin 
-                           PAPin PAPin PAPin */
-  GPIO_InitStruct.Pin = E_Pin|DB0_Pin|DB1_Pin|DB2_Pin 
-                          |DB3_Pin|DB4_Pin|DB7_Pin;
+  /*Configure GPIO pins : PA1_Pin PA3_Pin DB4_Pin DB5_Pin
+                           DB6_Pin DB7_Pin PA8_Pin */
+  GPIO_InitStruct.Pin = PA1_Pin|PA3_Pin|DB4_Pin|DB5_Pin
+                          |DB6_Pin|DB7_Pin|PA8_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PBPin PBPin PBPin */
-  GPIO_InitStruct.Pin = DB5_Pin|DB6_Pin|LD3_Pin;
+  /*Configure GPIO pins : RS_Pin E_Pin LD3_Pin */
+  GPIO_InitStruct.Pin = RS_Pin|E_Pin|LD3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PAPin PAPin PAPin PAPin */
-  GPIO_InitStruct.Pin = CS1_Pin|RST_Pin|CS2_Pin|CS3_Pin;
+  /*Configure GPIO pins : PA9_Pin PA10_Pin PA11_Pin PA12_Pin */
+  GPIO_InitStruct.Pin = PA9_Pin|PA10_Pin|PA11_Pin|PA12_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -93,5 +95,3 @@ void MX_GPIO_Init(void)
 /* USER CODE BEGIN 2 */
 
 /* USER CODE END 2 */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

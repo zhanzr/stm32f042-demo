@@ -64,7 +64,7 @@ extern DMA_HandleTypeDef hdma_usart2_tx;
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M0 Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M0 Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 /**
   * @brief This function handles System tick timer.
@@ -119,4 +119,3 @@ void DMA1_Channel4_5_IRQHandler(void)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
