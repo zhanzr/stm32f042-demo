@@ -67,11 +67,16 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PA1_Pin PA3_Pin DB4_Pin DB5_Pin
-                           DB6_Pin DB7_Pin PA8_Pin */
-  GPIO_InitStruct.Pin = PA1_Pin|PA3_Pin|DB4_Pin|DB5_Pin
-                          |DB6_Pin|DB7_Pin|PA8_Pin;
+  /*Configure GPIO pins : PA1_Pin PA3_Pin PA8_Pin */
+  GPIO_InitStruct.Pin = PA1_Pin|PA3_Pin|PA8_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : DB4_Pin DB5_Pin DB6_Pin DB7_Pin */
+  GPIO_InitStruct.Pin = DB4_Pin|DB5_Pin|DB6_Pin|DB7_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);

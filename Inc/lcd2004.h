@@ -16,6 +16,7 @@ extern "C" {
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
+#define	LINE_NUM	4
 
 #define CLEAR_DISPLAY 0x01
 

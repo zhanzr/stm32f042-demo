@@ -89,7 +89,7 @@ PUTCHAR_PROTOTYPE
   return ch;
 }
 
-uint8_t line[4][21] = {"HD44780", "LCM-S02004DSR", "4 bit mode", "driver demo"};
+uint8_t line[4][21] = {"HD44780 ic", "LCM-S02004DSR", "4 Bit mode", "display example"};
 
 /* USER CODE END 0 */
 
@@ -128,6 +128,10 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
+	HAL_TIM_Base_Start(&htim2);
+	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 320);
+
 	printf("NUCLEO-F042K6 @ %u Hz, %u %u %u\n",
 		SystemCoreClock,
 		*(uint16_t*)(0x1FFFF7B8),
@@ -152,18 +156,21 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   uint32_t test_pwm_duty = 0;
-  while (1) {
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, test_pwm_duty);
-		  test_pwm_duty += 10;
+  char g_test_lcd_buf[LINE_NUM][21];
 
+  while (1) {
 		HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
-		HAL_Delay(500);
+		HAL_Delay(2500);
 		
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 		printf("%u %u %u %u\n",
 		g_ADCBuf[0], g_ADCBuf[1], g_ADCBuf[2], test_pwm_duty);
+
+		sprintf(g_test_lcd_buf[0], "%u %u %u",
+				g_ADCBuf[0], g_ADCBuf[1], g_ADCBuf[2]);
+		LCD_displayL(0, 0, g_test_lcd_buf[0]);
   }
   /* USER CODE END 3 */
 }
