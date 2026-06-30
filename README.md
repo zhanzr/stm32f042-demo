@@ -1,4 +1,15 @@
 Demo For Nucleo-F042K6 Board.
 
-LCM-S02004DSR 4bit driver demo.
-VO is connected to the Time PWM output pin.
+0.96' 160x80 ST7735S LCD module.
+
+DC	<->	PB0
+CS	<->	PB1
+RST	<->	PA4
+
+SPI two line mode.
+SCLK	<->	PA5
+MOSI	<->	PA7
+
+Backlight:
+BL	<->	PA0
+
