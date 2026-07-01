@@ -39,12 +39,12 @@ extern "C" {
 #define BRRED 0XFC07
 #define GRAY 0X8430
 
-#define GRAY0 0xEF7D // »ÒÉ«0 3165 00110 001011 00101
-#define GRAY1 0x8410 // »ÒÉ«1      00000 000000 00000
-#define GRAY2 0x4208 // »ÒÉ«2  1111111111011111
+#define GRAY0 0xEF7D
+#define GRAY1 0x8410
+#define GRAY2 0x4208
 
-#define X_MAX_PIXEL 160
-#define Y_MAX_PIXEL 80
+#define ST7735_LCD_PIXEL_WIDTH	160
+#define ST7735_LCD_PIXEL_HEIGHT	80
 
 /**
  * @brief  ST7735 Registers
@@ -101,6 +101,28 @@ extern "C" {
 #define LCD_REG_224 0xE0 /* Set Gamma adjustment (+ polarity): GAMCTRP1 */
 #define LCD_REG_225 0xE1 /* Set Gamma adjustment (- polarity): GAMCTRN1 */
 
+void     st7735_Init(void);
+uint16_t st7735_ReadID(void);
+
+void     st7735_DisplayOn(void);
+void     st7735_DisplayOff(void);
+void     st7735_SetCursor(uint16_t Xpos, uint16_t Ypos);
+void     st7735_WritePixel(uint16_t Xpos, uint16_t Ypos, uint16_t RGBCode);
+void     st7735_WriteReg(uint8_t LCDReg, uint8_t LCDRegValue);
+uint8_t  st7735_ReadReg(uint8_t LCDReg);
+
+void     st7735_SetDisplayWindow(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height);
+void     st7735_DrawHLine(uint16_t RGBCode, uint16_t Xpos, uint16_t Ypos, uint16_t Length);
+void     st7735_DrawVLine(uint16_t RGBCode, uint16_t Xpos, uint16_t Ypos, uint16_t Length);
+
+uint16_t st7735_GetLcdPixelWidth(void);
+uint16_t st7735_GetLcdPixelHeight(void);
+void     st7735_DrawBitmap(uint16_t Xpos, uint16_t Ypos, uint8_t *pbmp);
+
+void     LCD_IO_WriteMultipleData(uint8_t *pData, uint32_t Size);
+void     LCD_IO_WriteReg(uint8_t Reg);
+void     LCD_Delay(uint32_t delay);
+
 void Lcd_WriteIndex(uint8_t Index);
 void Lcd_WriteData(uint8_t Data);
 void Lcd_WriteReg(uint8_t Index, uint8_t Data);
@@ -117,6 +139,8 @@ void LCD_WriteData_16Bit(uint16_t Data);
 
 void Gui_DrawFont_GBK16(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc,
                         uint8_t *s);
+void Gui_DrawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1,
+		uint16_t Color);
 
 /* USER CODE END Prototypes */
 

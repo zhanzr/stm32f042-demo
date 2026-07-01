@@ -1,22 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
- ******************************************************************************
- * @file           : main.h
- * @brief          : Header for main.c file.
- *                   This file contains the common defines of the application.
- ******************************************************************************
- * @attention
- *
- * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
- * All rights reserved.</center></h2>
- *
- * This software component is licensed by ST under BSD 3-Clause license,
- * the "License"; You may not use this file except in compliance with the
- * License. You may obtain a copy of the License at:
- *                        opensource.org/licenses/BSD-3-Clause
- *
- ******************************************************************************
- */
+  ******************************************************************************
+  * @file           : main.h
+  * @brief          : Header for main.c file.
+  *                   This file contains the common defines of the application.
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2026 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -60,30 +59,18 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define ADC_CHAN_NO 3
 #define VREF_MV 3300
-#define PF0_Pin GPIO_PIN_0
-#define PF0_GPIO_Port GPIOF
-#define PF1_Pin GPIO_PIN_1
-#define PF1_GPIO_Port GPIOF
-#define PA1_Pin GPIO_PIN_1
-#define PA1_GPIO_Port GPIOA
 #define VCP_TX_Pin GPIO_PIN_2
 #define VCP_TX_GPIO_Port GPIOA
 #define RST_Pin GPIO_PIN_4
 #define RST_GPIO_Port GPIOA
+#define SCL_Pin GPIO_PIN_5
+#define SCL_GPIO_Port GPIOA
+#define MOSI_Pin GPIO_PIN_7
+#define MOSI_GPIO_Port GPIOA
 #define DC_Pin GPIO_PIN_0
 #define DC_GPIO_Port GPIOB
 #define CS_Pin GPIO_PIN_1
 #define CS_GPIO_Port GPIOB
-#define PA8_Pin GPIO_PIN_8
-#define PA8_GPIO_Port GPIOA
-#define PA9_Pin GPIO_PIN_9
-#define PA9_GPIO_Port GPIOA
-#define PA10_Pin GPIO_PIN_10
-#define PA10_GPIO_Port GPIOA
-#define PA11_Pin GPIO_PIN_11
-#define PA11_GPIO_Port GPIOA
-#define PA12_Pin GPIO_PIN_12
-#define PA12_GPIO_Port GPIOA
 #define SWDIO_Pin GPIO_PIN_13
 #define SWDIO_GPIO_Port GPIOA
 #define SWCLK_Pin GPIO_PIN_14
